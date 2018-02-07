@@ -1,0 +1,4 @@
+<resources>
+    <string name="f_library_dialog_material_ok">确认</string>
+    <string name="f_library_dialog_material_cancel">取消</string>
+</resources>
