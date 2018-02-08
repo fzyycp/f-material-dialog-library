@@ -24,10 +24,12 @@ dependencies {
 }
 
 publish {
+// gradlew clean build bintrayUpload -PbintrayUser=用户名 -PbintrayKey=apikey -PdryRun=false
     userOrg = 'faury'//bintray.com用户名
     groupId = 'cn.faury.android.library'//jcenter上的路径
     artifactId = 'f-material-dialog-library'//项目名称
-    publishVersion = '1.0.2'//版本号
+    publishVersion = '1.0.3'//版本号
     desc = 'this is an andriod library, base on material dialog'//描述，不重要
     website = 'https://github.com/fzyycp/f-material-dialog-library'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }
+

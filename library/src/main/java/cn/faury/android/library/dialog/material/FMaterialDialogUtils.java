@@ -6,13 +6,14 @@ import android.support.annotation.NonNull;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 /**
- * 常用对话框工具
+ * 常用对话框工具：
+ * 封装常用的alert、confirm、prompt、loading对话框
  */
 
-public class MaterialDialogUtils {
+public class FMaterialDialogUtils {
 
     /**
-     * 获取警告框
+     * 获取警告框,不显示
      *
      * @param context 上下文，没有传入时从SskSdk中读取当前的上下文
      * @param title   标题，为空时不显示标题
@@ -21,7 +22,7 @@ public class MaterialDialogUtils {
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog alert(@NonNull Context context, String title, @NonNull String content, String btnText, MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog alertDialog(@NonNull Context context, String title, @NonNull String content, String btnText, MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(title)) {
             builder.title(title);
@@ -38,15 +39,15 @@ public class MaterialDialogUtils {
     }
 
     /**
-     * 获取警告框
+     * 获取警告框,不显示
      *
      * @param context 上下文，没有传入时从SskSdk中读取当前的上下文
      * @param content 警告内容
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog alert(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback btnCb) {
-        return alert(context, null, content, null, btnCb);
+    public static MaterialDialog alertDialog(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback btnCb) {
+        return alertDialog(context, null, content, null, btnCb);
     }
 
     /**
@@ -59,8 +60,8 @@ public class MaterialDialogUtils {
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog showAlert(@NonNull Context context, String title, @NonNull String content, String btnText, MaterialDialog.SingleButtonCallback btnCb) {
-        MaterialDialog dialog = alert(context, title, content, btnText, btnCb);
+    public static MaterialDialog alert(@NonNull Context context, String title, @NonNull String content, String btnText, MaterialDialog.SingleButtonCallback btnCb) {
+        MaterialDialog dialog = alertDialog(context, title, content, btnText, btnCb);
         dialog.show();
         return dialog;
     }
@@ -73,12 +74,12 @@ public class MaterialDialogUtils {
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog showAlert(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback btnCb) {
-        return showAlert(context, null, content, null, btnCb);
+    public static MaterialDialog alert(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback btnCb) {
+        return alert(context, null, content, null, btnCb);
     }
 
     /**
-     * 获取确认信息框
+     * 获取确认信息框,不显示
      *
      * @param context         上下文，没有传入时从SskSdk中读取当前的上下文
      * @param title           标题，为空时不显示标题
@@ -88,7 +89,7 @@ public class MaterialDialogUtils {
      * @param positiveCb      点击确认按钮回调
      * @param negativeCb      点击取消按钮回调
      */
-    public static MaterialDialog confirm(@NonNull Context context, String title, @NonNull String content, String positiveBtnText, String negativeBtnText, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+    public static MaterialDialog confirmDialog(@NonNull Context context, String title, @NonNull String content, String positiveBtnText, String negativeBtnText, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(title)) {
             builder.title(title);
@@ -111,15 +112,15 @@ public class MaterialDialogUtils {
     }
 
     /**
-     * 获取确认信息框
+     * 获取确认信息框,不显示
      *
      * @param context    上下文，没有传入时从SskSdk中读取当前的上下文
      * @param content    警告内容
      * @param positiveCb 点击确认按钮回调
      * @param negativeCb 点击取消按钮回调
      */
-    public static MaterialDialog confirm(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
-        return confirm(context, null, content, null, null, positiveCb, negativeCb);
+    public static MaterialDialog confirmDialog(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+        return confirmDialog(context, null, content, null, null, positiveCb, negativeCb);
     }
 
     /**
@@ -133,8 +134,8 @@ public class MaterialDialogUtils {
      * @param positiveCb      点击确认按钮回调
      * @param negativeCb      点击取消按钮回调
      */
-    public static MaterialDialog showConfirm(@NonNull Context context, String title, @NonNull String content, String positiveBtnText, String negativeBtnText, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
-        MaterialDialog dialog = confirm(context, title, content, positiveBtnText, negativeBtnText, positiveCb, negativeCb);
+    public static MaterialDialog confirm(@NonNull Context context, String title, @NonNull String content, String positiveBtnText, String negativeBtnText, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+        MaterialDialog dialog = confirmDialog(context, title, content, positiveBtnText, negativeBtnText, positiveCb, negativeCb);
         dialog.show();
         return dialog;
     }
@@ -147,12 +148,12 @@ public class MaterialDialogUtils {
      * @param positiveCb 点击确认按钮回调
      * @param negativeCb 点击取消按钮回调
      */
-    public static MaterialDialog showConfirm(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
-        return showConfirm(context, null, content, null, null, positiveCb, negativeCb);
+    public static MaterialDialog confirm(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+        return confirm(context, null, content, null, null, positiveCb, negativeCb);
     }
 
     /**
-     * 获取提示输入对话框
+     * 获取提示输入对话框,不显示
      *
      * @param context   上下文
      * @param title     标题，为空时不显示标题
@@ -161,8 +162,8 @@ public class MaterialDialogUtils {
      * @param btnText   按钮文字，默认为“确认”
      * @param btnCb     点击确认按钮回调
      */
-    public static MaterialDialog prompt(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
-                                        MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog promptDialog(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
+                                              MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(title)) {
             builder.title(title);
@@ -188,15 +189,15 @@ public class MaterialDialogUtils {
     }
 
     /**
-     * 获取提示输入对话框
+     * 获取提示输入对话框,不显示
      *
      * @param context 上下文
      * @param content 警告内容
      * @param btnCb   点击确认按钮回调
      */
-    public static MaterialDialog prompt(@NonNull Context context, @NonNull String content,
-                                        MaterialDialog.SingleButtonCallback btnCb) {
-        return prompt(context, null, content, null, null, btnCb);
+    public static MaterialDialog promptDialog(@NonNull Context context, @NonNull String content,
+                                              MaterialDialog.SingleButtonCallback btnCb) {
+        return promptDialog(context, null, content, null, null, btnCb);
     }
 
     /**
@@ -209,9 +210,9 @@ public class MaterialDialogUtils {
      * @param btnText   按钮文字，默认为“确认”
      * @param btnCb     点击确认按钮回调
      */
-    public static MaterialDialog showPrompt(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
-                                            MaterialDialog.SingleButtonCallback btnCb) {
-        MaterialDialog dialog = prompt(context, title, content, inputHint, btnText, btnCb);
+    public static MaterialDialog prompt(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
+                                        MaterialDialog.SingleButtonCallback btnCb) {
+        MaterialDialog dialog = promptDialog(context, title, content, inputHint, btnText, btnCb);
         dialog.show();
         return dialog;
     }
@@ -223,19 +224,19 @@ public class MaterialDialogUtils {
      * @param content 警告内容
      * @param btnCb   点击确认按钮回调
      */
-    public static MaterialDialog showPrompt(@NonNull Context context, @NonNull String content,
-                                            MaterialDialog.SingleButtonCallback btnCb) {
-        return showPrompt(context, null, content, null, null, btnCb);
+    public static MaterialDialog prompt(@NonNull Context context, @NonNull String content,
+                                        MaterialDialog.SingleButtonCallback btnCb) {
+        return prompt(context, null, content, null, null, btnCb);
     }
 
     /**
-     * 获取等待加载框
+     * 获取等待加载框,不显示
      *
      * @param context 上下文
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog loading(@NonNull Context context, String content) {
+    public static MaterialDialog loadingDialog(@NonNull Context context, String content) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(content)) {
             builder.content(content);
@@ -247,13 +248,13 @@ public class MaterialDialogUtils {
     }
 
     /**
-     * 获取等待加载框
+     * 获取横向等待加载框,不显示
      *
      * @param context 上下文
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog loadingHorizontal(@NonNull Context context, String content) {
+    public static MaterialDialog loadingHorizontalDialog(@NonNull Context context, String content) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(content)) {
             builder.content(content);
@@ -265,27 +266,27 @@ public class MaterialDialogUtils {
     }
 
     /**
-     * 显示等待加载框
+     * 显示等待加载框，转圈
      *
      * @param context 上下文
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog showLoading(@NonNull Context context, String content) {
-        MaterialDialog dialog = loading(context, content);
+    public static MaterialDialog loading(@NonNull Context context, String content) {
+        MaterialDialog dialog = loadingDialog(context, content);
         dialog.show();
         return dialog;
     }
 
     /**
-     * 显示等待加载框
+     * 显示等待加载框，横条显示
      *
      * @param context 上下文
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog showLoadingHorizontal(@NonNull Context context, String content) {
-        MaterialDialog dialog = loadingHorizontal(context, content);
+    public static MaterialDialog loadingHorizontal(@NonNull Context context, String content) {
+        MaterialDialog dialog = loadingHorizontalDialog(context, content);
         dialog.show();
         return dialog;
     }
