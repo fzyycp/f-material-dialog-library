@@ -160,10 +160,12 @@ public class FMaterialDialogUtils {
      * @param content   警告内容
      * @param inputHint 输入框提示内容
      * @param btnText   按钮文字，默认为“确认”
+     * @param minLength 最小长度
+     * @param maxLength 最大长度
      * @param btnCb     点击确认按钮回调
      */
-    public static MaterialDialog promptDialog(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
-                                              MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog promptDialog(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText, int minLength, int maxLength
+            , final MaterialDialog.InputCallback inputCb, MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(title)) {
             builder.title(title);
@@ -177,15 +179,42 @@ public class FMaterialDialogUtils {
             builder.input(inputHint, "", new MaterialDialog.InputCallback() {
                 @Override
                 public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-
+                    if (inputCb != null) {
+                        inputCb.onInput(dialog, input);
+                    }
+                }
+            });
+        } else {
+            builder.input("", "", new MaterialDialog.InputCallback() {
+                @Override
+                public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                    if (inputCb != null) {
+                        inputCb.onInput(dialog, input);
+                    }
                 }
             });
         }
+        builder.inputRange(minLength, maxLength);
         return builder.content(content)
                 .alwaysCallInputCallback()
                 .onPositive(btnCb)
                 .cancelable(false)
                 .build();
+    }
+
+    /**
+     * 获取提示输入对话框,不显示
+     *
+     * @param context   上下文
+     * @param title     标题，为空时不显示标题
+     * @param content   警告内容
+     * @param inputHint 输入框提示内容
+     * @param btnText   按钮文字，默认为“确认”
+     * @param btnCb     点击确认按钮回调
+     */
+    public static MaterialDialog promptDialog(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
+                                              MaterialDialog.SingleButtonCallback btnCb) {
+        return promptDialog(context, null, content, null, null,0,Integer.MAX_VALUE,null,btnCb);
     }
 
     /**
@@ -198,6 +227,25 @@ public class FMaterialDialogUtils {
     public static MaterialDialog promptDialog(@NonNull Context context, @NonNull String content,
                                               MaterialDialog.SingleButtonCallback btnCb) {
         return promptDialog(context, null, content, null, null, btnCb);
+    }
+
+    /**
+     * 获取提示输入对话框,不显示
+     *
+     * @param context   上下文
+     * @param title     标题，为空时不显示标题
+     * @param content   警告内容
+     * @param inputHint 输入框提示内容
+     * @param btnText   按钮文字，默认为“确认”
+     * @param minLength 最小长度
+     * @param maxLength 最大长度
+     * @param btnCb     点击确认按钮回调
+     */
+    public static MaterialDialog prompt(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText, int minLength, int maxLength
+            , final MaterialDialog.InputCallback inputCb, MaterialDialog.SingleButtonCallback btnCb) {
+        MaterialDialog dialog = promptDialog(context, title, content, inputHint, btnText, minLength, maxLength, inputCb, btnCb);
+        dialog.show();
+        return dialog;
     }
 
     /**
