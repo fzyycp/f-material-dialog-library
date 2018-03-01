@@ -1,9 +1,17 @@
 package cn.faury.android.library.dialog.material;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.DatePicker;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.Calendar;
+import java.util.Collection;
 
 /**
  * 常用对话框工具：
@@ -175,8 +183,9 @@ public class FMaterialDialogUtils {
         } else {
             builder.positiveText(R.string.f_library_dialog_material_ok);
         }
+        builder.negativeText(R.string.f_library_dialog_material_cancel);
         if (isNotEmpty(inputHint)) {
-            builder.input(inputHint, "", new MaterialDialog.InputCallback() {
+            builder.input(inputHint, inputHint, new MaterialDialog.InputCallback() {
                 @Override
                 public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                     if (inputCb != null) {
@@ -194,7 +203,9 @@ public class FMaterialDialogUtils {
                 }
             });
         }
-        builder.inputRange(minLength, maxLength);
+        if (minLength > -1 && maxLength > 0) {
+            builder.inputRange(minLength, maxLength);
+        }
         return builder.content(content)
                 .alwaysCallInputCallback()
                 .onPositive(btnCb)
@@ -214,7 +225,7 @@ public class FMaterialDialogUtils {
      */
     public static MaterialDialog promptDialog(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
                                               MaterialDialog.SingleButtonCallback btnCb) {
-        return promptDialog(context, null, content, null, null,0,Integer.MAX_VALUE,null,btnCb);
+        return promptDialog(context, null, content, null, null, -1, -1, null, btnCb);
     }
 
     /**
@@ -335,6 +346,158 @@ public class FMaterialDialogUtils {
      */
     public static MaterialDialog loadingHorizontal(@NonNull Context context, String content) {
         MaterialDialog dialog = loadingHorizontalDialog(context, content);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
+     * 选择对话框(单选)
+     *
+     * @param context         上下文
+     * @param title           标题
+     * @param items           备选项
+     * @param selectedIdx     默认选中项
+     * @param disabledIndices 禁用选项
+     * @param singleChoiceCb  单选回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog choiceDialog(@NonNull Context context, @Nullable String title
+            , @NonNull Collection<? extends CharSequence> items
+            , int selectedIdx
+            , @Nullable Integer[] disabledIndices
+            , @Nullable final MaterialDialog.ListCallbackSingleChoice singleChoiceCb) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        if (isNotEmpty(title)) {
+            builder.title(title);
+        }
+        builder.items(items)
+                .itemsCallbackSingleChoice(selectedIdx, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                        return singleChoiceCb != null && singleChoiceCb.onSelection(dialog, itemView, which, text);
+                    }
+                })
+                .itemsDisabledIndices(disabledIndices)
+                .positiveText(R.string.f_library_dialog_material_select)
+                .negativeText(R.string.f_library_dialog_material_cancel);
+        return builder.build();
+    }
+
+    /**
+     * 选择对话框(多选)
+     *
+     * @param context         上下文
+     * @param title           标题
+     * @param items           备选项
+     * @param selectedIndices 默认选中项
+     * @param disabledIndices 禁用选项
+     * @param multiChoiceCb   单选回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog choiceDialog(@NonNull Context context, String title
+            , @NonNull Collection<? extends CharSequence> items
+            , @Nullable Integer[] selectedIndices
+            , @Nullable Integer[] disabledIndices
+            , @Nullable final MaterialDialog.ListCallbackMultiChoice multiChoiceCb) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        if (isNotEmpty(title)) {
+            builder.title(title);
+        }
+        builder.items(items)
+                .itemsCallbackMultiChoice(selectedIndices, new MaterialDialog.ListCallbackMultiChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        return multiChoiceCb != null && multiChoiceCb.onSelection(dialog, which, text);
+                    }
+                })
+                .itemsDisabledIndices(disabledIndices)
+                .positiveText(R.string.f_library_dialog_material_select)
+                .negativeText(R.string.f_library_dialog_material_cancel);
+        return builder.build();
+    }
+
+    /**
+     * 显示选择对话框(单选)
+     *
+     * @param context         上下文
+     * @param title           标题
+     * @param items           备选项
+     * @param selectedIdx     默认选中项
+     * @param disabledIndices 禁用选项
+     * @param singleChoiceCb  单选回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog choice(@NonNull Context context, @Nullable String title
+            , @NonNull Collection<? extends CharSequence> items
+            , int selectedIdx
+            , @Nullable Integer[] disabledIndices
+            , @Nullable final MaterialDialog.ListCallbackSingleChoice singleChoiceCb) {
+        MaterialDialog dialog = choiceDialog(context, title, items, selectedIdx, disabledIndices, singleChoiceCb);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
+     * 显示选择对话框(多选)
+     *
+     * @param context         上下文
+     * @param title           标题
+     * @param items           备选项
+     * @param selectedIndices 默认选中项
+     * @param disabledIndices 禁用选项
+     * @param multiChoiceCb   多选回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog choice(@NonNull Context context, String title
+            , @NonNull Collection<? extends CharSequence> items
+            , @Nullable Integer[] selectedIndices
+            , @Nullable Integer[] disabledIndices
+            , @Nullable final MaterialDialog.ListCallbackMultiChoice multiChoiceCb) {
+        MaterialDialog dialog = choiceDialog(context, title, items, selectedIndices, disabledIndices, multiChoiceCb);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
+     * 日历选择器
+     *
+     * @param context           上下文
+     * @param dftDate           默认日期
+     * @param onDateSetListener 日历选择回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog datePickerDialog(@NonNull Context context, @Nullable Calendar dftDate, @Nullable final DatePickerDialog.OnDateSetListener onDateSetListener) {
+        final MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        builder.customView(R.layout.f_library_dialog_material_datepicker, false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        if (onDateSetListener != null && dialog.getCustomView() != null) {
+                            DatePicker datePicker = dialog.getCustomView().findViewById(R.id.f_library_dialog_material_dp);
+                            onDateSetListener.onDateSet(datePicker, datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                        }
+                    }
+                })
+                .positiveText(R.string.f_library_dialog_material_select)
+                .negativeText(R.string.f_library_dialog_material_cancel);
+        MaterialDialog dialog = builder.build();
+        if (dftDate != null && dialog.getCustomView() != null) {
+            DatePicker datePicker = dialog.getCustomView().findViewById(R.id.f_library_dialog_material_dp);
+            datePicker.updateDate(dftDate.get(Calendar.YEAR), dftDate.get(Calendar.MONTH), dftDate.get(Calendar.DAY_OF_MONTH));
+        }
+        return dialog;
+    }
+
+    /**
+     * 日历选择器
+     *
+     * @param context           上下文
+     * @param dftDate           默认日期
+     * @param onDateSetListener 日历选择回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog datePicker(@NonNull Context context, @Nullable Calendar dftDate, @Nullable final DatePickerDialog.OnDateSetListener onDateSetListener) {
+        MaterialDialog dialog = datePickerDialog(context, dftDate, onDateSetListener);
         dialog.show();
         return dialog;
     }
