@@ -30,7 +30,11 @@ public class FMaterialDialogUtils {
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog alertDialog(@NonNull Context context, String title, @NonNull String content, String btnText, MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog alertDialog(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String btnText
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(title)) {
             builder.title(title);
@@ -40,8 +44,10 @@ public class FMaterialDialogUtils {
         } else {
             builder.positiveText(R.string.f_library_dialog_material_ok);
         }
+        if (btnCb != null) {
+            builder.onPositive(btnCb);
+        }
         return builder.content(content)
-                .onPositive(btnCb)
                 .cancelable(false)
                 .build();
     }
@@ -54,7 +60,9 @@ public class FMaterialDialogUtils {
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog alertDialog(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog alertDialog(@NonNull Context context
+            , @NonNull String content
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         return alertDialog(context, null, content, null, btnCb);
     }
 
@@ -68,7 +76,11 @@ public class FMaterialDialogUtils {
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog alert(@NonNull Context context, String title, @NonNull String content, String btnText, MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog alert(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String btnText
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog dialog = alertDialog(context, title, content, btnText, btnCb);
         dialog.show();
         return dialog;
@@ -82,7 +94,9 @@ public class FMaterialDialogUtils {
      * @param btnCb   点击确认按钮回调
      * @return 对话框对象
      */
-    public static MaterialDialog alert(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog alert(@NonNull Context context
+            , @NonNull String content
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         return alert(context, null, content, null, btnCb);
     }
 
@@ -97,7 +111,12 @@ public class FMaterialDialogUtils {
      * @param positiveCb      点击确认按钮回调
      * @param negativeCb      点击取消按钮回调
      */
-    public static MaterialDialog confirmDialog(@NonNull Context context, String title, @NonNull String content, String positiveBtnText, String negativeBtnText, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+    public static MaterialDialog confirmDialog(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String positiveBtnText
+            , @Nullable String negativeBtnText
+            , @Nullable MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(title)) {
             builder.title(title);
@@ -112,9 +131,13 @@ public class FMaterialDialogUtils {
         } else {
             builder.negativeText(R.string.f_library_dialog_material_cancel);
         }
+        if (positiveCb != null) {
+            builder.onPositive(positiveCb);
+        }
+        if (negativeCb != null) {
+            builder.onNegative(negativeCb);
+        }
         return builder.content(content)
-                .onPositive(positiveCb)
-                .onNegative(negativeCb)
                 .cancelable(false)
                 .build();
     }
@@ -127,7 +150,10 @@ public class FMaterialDialogUtils {
      * @param positiveCb 点击确认按钮回调
      * @param negativeCb 点击取消按钮回调
      */
-    public static MaterialDialog confirmDialog(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+    public static MaterialDialog confirmDialog(@NonNull Context context
+            , @NonNull String content
+            , @Nullable MaterialDialog.SingleButtonCallback positiveCb
+            , @Nullable MaterialDialog.SingleButtonCallback negativeCb) {
         return confirmDialog(context, null, content, null, null, positiveCb, negativeCb);
     }
 
@@ -142,7 +168,13 @@ public class FMaterialDialogUtils {
      * @param positiveCb      点击确认按钮回调
      * @param negativeCb      点击取消按钮回调
      */
-    public static MaterialDialog confirm(@NonNull Context context, String title, @NonNull String content, String positiveBtnText, String negativeBtnText, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+    public static MaterialDialog confirm(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String positiveBtnText
+            , @Nullable String negativeBtnText
+            , @Nullable MaterialDialog.SingleButtonCallback positiveCb
+            , @Nullable MaterialDialog.SingleButtonCallback negativeCb) {
         MaterialDialog dialog = confirmDialog(context, title, content, positiveBtnText, negativeBtnText, positiveCb, negativeCb);
         dialog.show();
         return dialog;
@@ -156,7 +188,10 @@ public class FMaterialDialogUtils {
      * @param positiveCb 点击确认按钮回调
      * @param negativeCb 点击取消按钮回调
      */
-    public static MaterialDialog confirm(@NonNull Context context, @NonNull String content, MaterialDialog.SingleButtonCallback positiveCb, MaterialDialog.SingleButtonCallback negativeCb) {
+    public static MaterialDialog confirm(@NonNull Context context
+            , @NonNull String content
+            , @Nullable MaterialDialog.SingleButtonCallback positiveCb
+            , @Nullable MaterialDialog.SingleButtonCallback negativeCb) {
         return confirm(context, null, content, null, null, positiveCb, negativeCb);
     }
 
@@ -172,8 +207,15 @@ public class FMaterialDialogUtils {
      * @param maxLength 最大长度
      * @param btnCb     点击确认按钮回调
      */
-    public static MaterialDialog promptDialog(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText, int minLength, int maxLength
-            , final MaterialDialog.InputCallback inputCb, MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog promptDialog(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String inputHint
+            , @Nullable String btnText
+            , int minLength
+            , int maxLength
+            , @Nullable final MaterialDialog.InputCallback inputCb
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(title)) {
             builder.title(title);
@@ -206,9 +248,11 @@ public class FMaterialDialogUtils {
         if (minLength > -1 && maxLength > 0) {
             builder.inputRange(minLength, maxLength);
         }
+        if (btnCb != null) {
+            builder.onPositive(btnCb);
+        }
         return builder.content(content)
                 .alwaysCallInputCallback()
-                .onPositive(btnCb)
                 .cancelable(false)
                 .build();
     }
@@ -223,9 +267,13 @@ public class FMaterialDialogUtils {
      * @param btnText   按钮文字，默认为“确认”
      * @param btnCb     点击确认按钮回调
      */
-    public static MaterialDialog promptDialog(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
-                                              MaterialDialog.SingleButtonCallback btnCb) {
-        return promptDialog(context, null, content, null, null, -1, -1, null, btnCb);
+    public static MaterialDialog promptDialog(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String inputHint
+            , @Nullable String btnText
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
+        return promptDialog(context, title, content, inputHint, btnText, -1, -1, null, btnCb);
     }
 
     /**
@@ -235,8 +283,9 @@ public class FMaterialDialogUtils {
      * @param content 警告内容
      * @param btnCb   点击确认按钮回调
      */
-    public static MaterialDialog promptDialog(@NonNull Context context, @NonNull String content,
-                                              MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog promptDialog(@NonNull Context context
+            , @NonNull String content
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         return promptDialog(context, null, content, null, null, btnCb);
     }
 
@@ -252,8 +301,15 @@ public class FMaterialDialogUtils {
      * @param maxLength 最大长度
      * @param btnCb     点击确认按钮回调
      */
-    public static MaterialDialog prompt(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText, int minLength, int maxLength
-            , final MaterialDialog.InputCallback inputCb, MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog prompt(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String inputHint
+            , @Nullable String btnText
+            , int minLength
+            , int maxLength
+            , @Nullable final MaterialDialog.InputCallback inputCb
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog dialog = promptDialog(context, title, content, inputHint, btnText, minLength, maxLength, inputCb, btnCb);
         dialog.show();
         return dialog;
@@ -269,8 +325,12 @@ public class FMaterialDialogUtils {
      * @param btnText   按钮文字，默认为“确认”
      * @param btnCb     点击确认按钮回调
      */
-    public static MaterialDialog prompt(@NonNull Context context, String title, @NonNull String content, String inputHint, String btnText,
-                                        MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog prompt(@NonNull Context context
+            , @Nullable String title
+            , @NonNull String content
+            , @Nullable String inputHint
+            , @Nullable String btnText
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         MaterialDialog dialog = promptDialog(context, title, content, inputHint, btnText, btnCb);
         dialog.show();
         return dialog;
@@ -283,8 +343,9 @@ public class FMaterialDialogUtils {
      * @param content 警告内容
      * @param btnCb   点击确认按钮回调
      */
-    public static MaterialDialog prompt(@NonNull Context context, @NonNull String content,
-                                        MaterialDialog.SingleButtonCallback btnCb) {
+    public static MaterialDialog prompt(@NonNull Context context
+            , @NonNull String content
+            , @Nullable MaterialDialog.SingleButtonCallback btnCb) {
         return prompt(context, null, content, null, null, btnCb);
     }
 
@@ -295,7 +356,8 @@ public class FMaterialDialogUtils {
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog loadingDialog(@NonNull Context context, String content) {
+    public static MaterialDialog loadingDialog(@NonNull Context context
+            , @Nullable String content) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(content)) {
             builder.content(content);
@@ -313,7 +375,8 @@ public class FMaterialDialogUtils {
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog loadingHorizontalDialog(@NonNull Context context, String content) {
+    public static MaterialDialog loadingHorizontalDialog(@NonNull Context context
+            , @Nullable String content) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         if (isNotEmpty(content)) {
             builder.content(content);
@@ -331,7 +394,8 @@ public class FMaterialDialogUtils {
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog loading(@NonNull Context context, String content) {
+    public static MaterialDialog loading(@NonNull Context context
+            , @Nullable String content) {
         MaterialDialog dialog = loadingDialog(context, content);
         dialog.show();
         return dialog;
@@ -344,7 +408,8 @@ public class FMaterialDialogUtils {
      * @param content 提示内容，为空时不显示
      * @return 对话框对象
      */
-    public static MaterialDialog loadingHorizontal(@NonNull Context context, String content) {
+    public static MaterialDialog loadingHorizontal(@NonNull Context context
+            , @Nullable String content) {
         MaterialDialog dialog = loadingHorizontalDialog(context, content);
         dialog.show();
         return dialog;
@@ -394,7 +459,8 @@ public class FMaterialDialogUtils {
      * @param multiChoiceCb   单选回调
      * @return 对话框对象
      */
-    public static MaterialDialog choiceDialog(@NonNull Context context, String title
+    public static MaterialDialog choiceDialog(@NonNull Context context
+            , @Nullable String title
             , @NonNull Collection<? extends CharSequence> items
             , @Nullable Integer[] selectedIndices
             , @Nullable Integer[] disabledIndices
@@ -427,7 +493,8 @@ public class FMaterialDialogUtils {
      * @param singleChoiceCb  单选回调
      * @return 对话框对象
      */
-    public static MaterialDialog choice(@NonNull Context context, @Nullable String title
+    public static MaterialDialog choice(@NonNull Context context
+            , @Nullable String title
             , @NonNull Collection<? extends CharSequence> items
             , int selectedIdx
             , @Nullable Integer[] disabledIndices
@@ -466,7 +533,9 @@ public class FMaterialDialogUtils {
      * @param onDateSetListener 日历选择回调
      * @return 对话框对象
      */
-    public static MaterialDialog datePickerDialog(@NonNull Context context, @Nullable Calendar dftDate, @Nullable final DatePickerDialog.OnDateSetListener onDateSetListener) {
+    public static MaterialDialog datePickerDialog(@NonNull Context context
+            , @Nullable Calendar dftDate
+            , @Nullable final DatePickerDialog.OnDateSetListener onDateSetListener) {
         final MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         builder.customView(R.layout.f_library_dialog_material_datepicker, false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -496,7 +565,9 @@ public class FMaterialDialogUtils {
      * @param onDateSetListener 日历选择回调
      * @return 对话框对象
      */
-    public static MaterialDialog datePicker(@NonNull Context context, @Nullable Calendar dftDate, @Nullable final DatePickerDialog.OnDateSetListener onDateSetListener) {
+    public static MaterialDialog datePicker(@NonNull Context context
+            , @Nullable Calendar dftDate
+            , @Nullable final DatePickerDialog.OnDateSetListener onDateSetListener) {
         MaterialDialog dialog = datePickerDialog(context, dftDate, onDateSetListener);
         dialog.show();
         return dialog;
