@@ -574,6 +574,58 @@ public class FMaterialDialogUtils {
     }
 
     /**
+     * 获取列表项选择对话框
+     *
+     * @param context         上下文
+     * @param title           标题
+     * @param items           备选项
+     * @param disabledIndices 禁用选项
+     * @param listCb          选项回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog listDialog(@NonNull Context context
+            , @Nullable String title
+            , @NonNull Collection<? extends CharSequence> items
+            , @Nullable Integer[] disabledIndices
+            , @Nullable final MaterialDialog.ListCallback listCb) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        if (isNotEmpty(title)) {
+            builder.title(title);
+        }
+        builder.items(items)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        if (listCb != null) {
+                            listCb.onSelection(dialog, itemView, position, text);
+                        }
+                    }
+                })
+                .itemsDisabledIndices(disabledIndices);
+        return builder.build();
+    }
+
+    /**
+     * 显示列表项选择对话框
+     *
+     * @param context         上下文
+     * @param title           标题
+     * @param items           备选项
+     * @param disabledIndices 禁用选项
+     * @param listCb          选项回调
+     * @return 对话框对象
+     */
+    public static MaterialDialog list(@NonNull Context context
+            , @Nullable String title
+            , @NonNull Collection<? extends CharSequence> items
+            , @Nullable Integer[] disabledIndices
+            , @Nullable final MaterialDialog.ListCallback listCb) {
+        MaterialDialog dialog = listDialog(context, title, items, disabledIndices, listCb);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
      * 关闭对话框
      *
      * @param dialog 对话框对象
