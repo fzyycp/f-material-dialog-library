@@ -626,6 +626,60 @@ public class FMaterialDialogUtils {
     }
 
     /**
+     * 显示进度条对话框
+     *
+     * @param context       上下文
+     * @param title         标题
+     * @param cancelable    是否可以取消
+     * @param indeterminate true表示转圈，false表示水平
+     * @param max           最大值
+     * @param showMinMax    是否显示最大值
+     * @return 对话框对象
+     */
+    public static MaterialDialog progressDialog(@NonNull Context context
+            , @Nullable String title, boolean cancelable
+            , boolean indeterminate, int max, boolean showMinMax) {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
+        if (isNotEmpty(title)) {
+            builder.title(title);
+        }
+        builder.cancelable(cancelable)
+                .progress(indeterminate, max, showMinMax);
+        MaterialDialog dialog = builder.build();
+        return dialog;
+    }
+
+    /**
+     * 显示水平进度条对话框
+     *
+     * @param context       上下文
+     * @param title         标题
+     * @param max           最大值
+     * @return 对话框对象
+     */
+    public static MaterialDialog progressHorizontal(@NonNull Context context
+            , @Nullable String title, int max) {
+        MaterialDialog dialog = progressDialog(context,title,false,false,max,true);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
+     * 显示圆圈进度条对话框
+     *
+     * @param context       上下文
+     * @param title         标题
+     * @param max           最大值
+     * @return 对话框对象
+     */
+    public static MaterialDialog progressCircular(@NonNull Context context
+            , @Nullable String title, int max) {
+        MaterialDialog dialog = progressDialog(context,title,false,true,max,true);
+        dialog.show();
+        return dialog;
+    }
+
+    /**
      * 关闭对话框
      *
      * @param dialog 对话框对象

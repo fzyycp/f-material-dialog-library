@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 108
-        versionName "1.0.8"
+        versionCode 109
+        versionName "1.0.9"
     }
     buildTypes {
         release {
@@ -30,7 +30,7 @@ uploadArchives {
         repository(url:"http://128.0.9.253:8081/nexus/content/repositories/releases/"){
             authentication(userName:NEXUS_USERNAME,password:NEXUS_PASSWORD)
         }
-        pom.version  = "1.0.8"
+        pom.version  = "1.0.9"
         pom.artifactId = "f-material-dialog-library"
         pom.groupId = "cn.faury.android.library"
         pom.name = "f-material-dialog-library"
@@ -46,7 +46,7 @@ publish {
     dryRun = false
     groupId = 'cn.faury.android.library'//jcenter上的路径
     artifactId = 'f-material-dialog-library'//项目名称
-    publishVersion = '1.0.8'//版本号
+    publishVersion = '1.0.9'//版本号
     desc = 'this is an andriod library, base on material dialog'//描述
     website = 'https://github.com/fzyycp/f-material-dialog-library'//github上的地址
 }
